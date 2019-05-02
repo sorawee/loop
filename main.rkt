@@ -25,12 +25,10 @@
 (define-syntax-parser loop
   [(_ name:id ((~alt binds:binding binds*:binding*) ...) body:expr ...+)
    #:with (kwargs ...) (stx-map id->kw #'(binds*.name ...))
-   #'(let ()
-       (define (@ binds.name ... binds*.name ...)
-         (let ([name (λ (binds.name ... (~@ kwargs [binds*.name binds*.default]) ...)
-                       (@ binds.name ... binds*.name ...))])
-           body ...))
-       (@ binds.val ... binds*.val ...))])
+   #'(let loop ([binds.name binds.val] ... [binds*.name binds*.val] ...)
+       (let ([name (λ (binds.name ... (~@ kwargs [binds*.name binds*.default]) ...)
+                     (loop binds.name ... binds*.name ...))])
+         body ...))])
 
 (module+ test
   (require rackunit
