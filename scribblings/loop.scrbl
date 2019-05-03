@@ -78,3 +78,39 @@ Notice that by default, @racket[proceed?] is @racket[#f], and the variable is fl
     @item{The result of the evaluation of @racket[default-expr], if both @racket[#:default] and @racket[default-expr] are provided.}
   ]
 }
+
+@section{Performance}
+
+Keyword arguments are incredibly very expensive. It could, for instance, make the program slower by 5x. Thankfully, in usual circumstances, Racket will be able to perform function application inlining, which completely restores the performance back to the original level.
+
+It is still possible to circumvent Racket from performing inlining, however. In this case, the performance degradation will be noticable.
+
+@examples[#:eval the-eval #:label #f
+(define N 10000000)
+
+(code:comment @#,elem{Original performant code})
+(time
+ (let go ([n N] [sum 0])
+   (cond
+     [(= 0 n) sum]
+     [(= 0 (remainder n 2)) (go (sub1 n) (+ sum n))]
+     [(= 1 (remainder n 2)) (go (sub1 n) sum)])))
+
+(code:comment @#,elem{Equally performant code with loop syntax})
+(time
+ (loop go ([n N] [sum 0 #:inherit])
+   (cond
+     [(= 0 n) sum]
+     [(= 0 (remainder n 2)) (go (sub1 n) #:sum (+ sum n))]
+     [(= 1 (remainder n 2)) (go (sub1 n))])))
+
+(code:comment @#,elem{Non-performant code with loop syntax })
+(code:comment @#,elem{due to the inability to perform inlining})
+(time
+ (loop go ([n N] [sum 0 #:inherit])
+   (let ([go go])
+     (cond
+       [(= 0 n) sum]
+       [(= 0 (remainder n 2)) (go (sub1 n) #:sum (+ sum n))]
+       [(= 1 (remainder n 2)) (go (sub1 n))]))))
+]

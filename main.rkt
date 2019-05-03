@@ -26,9 +26,9 @@
   [(_ name:id ((~alt binds:binding binds*:binding*) ...) body:expr ...+)
    #:with (kwargs ...) (stx-map id->kw #'(binds*.name ...))
    #'(let loop ([binds.name binds.val] ... [binds*.name binds*.val] ...)
-       (let ([name (λ (binds.name ... (~@ kwargs [binds*.name binds*.default]) ...)
-                     (loop binds.name ... binds*.name ...))])
-         body ...))])
+       (define (name binds.name ... (~@ kwargs [binds*.name binds*.default]) ...)
+         (loop binds.name ... binds*.name ...))
+       (let () body ...))])
 
 (module+ test
   (require rackunit
