@@ -81,7 +81,7 @@ Notice that by default, @racket[proceed?] is @racket[#f], and the variable is fl
 
 @section{Performance}
 
-Keyword arguments are incredibly very expensive. It could, for instance, make the program slower by 5x. Thankfully, in usual circumstances, Racket will be able to perform function application inlining, which completely restores the performance back to the original level.
+Keyword arguments are incredibly very expensive. It could, for instance, make a program slower by 5x. Thankfully, in usual circumstances, Racket will be able to perform function application inlining, which completely restores the performance back to the original level.
 
 It is still possible to circumvent Racket from performing inlining, however. In this case, the performance degradation will be noticable.
 
@@ -104,7 +104,7 @@ It is still possible to circumvent Racket from performing inlining, however. In 
      [(= 0 (remainder n 2)) (go (sub1 n) #:sum (+ sum n))]
      [(= 1 (remainder n 2)) (go (sub1 n))])))
 
-(code:comment @#,elem{Non-performant code with loop syntax })
+(code:comment @#,elem{Non-performant code with loop syntax})
 (code:comment @#,elem{due to the inability to perform inlining})
 (time
  (loop go ([n N] [sum 0 #:inherit])
