@@ -11,7 +11,7 @@
 
 @defmodule[loop]
 
-This library provides the @racket[loop] syntax which is similar to named @racket[let]. Unlike named let, the loop syntax has an option that will allow unchanged variables to be left out, as they will be carried to the next loop automatically. It also supports customized default values.
+This library provides the @racket[loop] syntax, a drop-in replacement of named @racket[let]. Unlike named let, the loop syntax has an option that will allow unchanged variables to be left out in function calls, as they will be carried to the next loop automatically. It also supports customized default values.
 
 The code of this library can be found at @url{https://github.com/sorawee/loop}.
 
@@ -27,7 +27,7 @@ Let's suppose that you want to calculate the sum of even numbers up to @racket[4
     [else (go (sub1 n) sum)]))
 ]
 
-Notice that the variable @racket[sum] is left unchanged in the else branch. With the @racket[loop] construct, we can write the following instead:
+Notice that the variable @racket[sum] is left unchanged in the else branch. With the @racket[loop] syntax, we can write the following instead:
 
 @examples[#:eval the-eval #:label #f
 (loop go ([n 42] [sum 0 #:inherit])
@@ -75,7 +75,7 @@ Notice that by default, @racket[proceed?] is @racket[#f], and the variable is fl
   @itemlist[
     @item{The value of @racket[id-optional] in the previous loop, if @racket[#:inherit] is specified.}
     @item{The result of the evaluation of @racket[init-expr], if @racket[#:default] is specified, but @racket[default-expr] is not.}
-    @item{The result of the evaluation of @racket[default-expr], if both @racket[#:default] and @racket[default-expr] are provided.}
+    @item{The result of the evaluation of @racket[default-expr], if both @racket[#:default] and @racket[default-expr] are specified.}
   ]
 }
 
