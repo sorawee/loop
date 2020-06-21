@@ -7,7 +7,7 @@
 @(the-eval '(require racket/match))
 
 @title{loop: advanced named let}
-@author+email["Sorawee Porncharoenwase" "sorawee.pwase@gmail.com"]
+@author[@author+email["Sorawee Porncharoenwase" "sorawee.pwase@gmail.com"]]
 
 @defmodule[loop]
 
