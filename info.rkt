@@ -6,3 +6,4 @@
 (define pkg-desc "Advanced named let loop")
 (define version "0.0.1")
 (define pkg-authors '(sorawee))
+(define license '(Apache-2.0 OR MIT))
